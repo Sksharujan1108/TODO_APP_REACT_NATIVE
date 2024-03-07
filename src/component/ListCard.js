@@ -10,7 +10,7 @@ import {
 const ListCard = (props) => {
     const {
         name,
-        title,
+        taskName,
         taskDescription,
         onPress,
         onPressEdit,
@@ -21,13 +21,18 @@ const ListCard = (props) => {
         <TouchableOpacity styles = {styles.Container} onPress = {onPress}>
 
       <View style = {styles.ListItem}>
+
         <View style = {styles.TxtFormat}>
-        <Text style = {styles.Name}> Name: {name} </Text>
-        <Text style = {styles.Title}>  TaskName: {title} </Text>
-        <Text style = {styles.Description}> TaskDescription: {taskDescription} </Text>
+
+        <Text style = {styles.Txt}> Name: {name} </Text>
+        <Text style = {styles.Txt}> TaskName: {taskName} </Text>
+        <Text style = {styles.Txt}> TaskDescription: {taskDescription} </Text>
+
         </View>
 
         <View  style={styles.buttonView}>
+
+          <View style = {styles.IconView}>
           <TouchableOpacity 
             style = {styles.EditIcon}
             onPress = {onPressEdit}
@@ -49,6 +54,8 @@ const ListCard = (props) => {
               color="black"
             />
           </TouchableOpacity>
+          </View>
+
         </View>
 
       </View>
@@ -65,51 +72,36 @@ const styles = StyleSheet.create({
        
     },
     ListItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         backgroundColor: 'red',
-        padding: wp(4),
+        padding: wp(5),
         marginTop: wp(5),
         marginLeft: wp(5),
         marginRight: wp(5),
     },
-    TxtFormat: {
-        alignItems: "center", // Add this line
-        justifyContent: "center",
-    },
+    
     Container: {
         width: "80%",
         paddingTop: Platform.OS == "ios" ? hp(4) : hp(2),
         alignItems: "center", // Add this line
         justifyContent: "center",
         height: Platform.OS == "ios" ? hp(15) : hp(12),
-      },
-    Name: {
-      fontSize: 25,
-      fontWeight: "500",
-      textAlign: "center",
-      color: "black",
     },
-    Title: {
+    Txt: {
       fontSize: 20,
-      fontWeight: "400",
-      textAlign: "center",
+      fontWeight: "500",
+    //   textAlign: "center",
       color: "black",
-    },
-    Description: {
-        fontSize: 20,
-        fontWeight: "400",
-        textAlign: "center",
-        color: "black",
     },
     buttonView: {
-
-        flexDirection: 'column', // Change to 'row' for horizontal alignment
-        justifyContent: 'space-around',
-        position: "absolute",
-        right: wp(2),
-        top: hp(2),
     }, 
     EditIcon: {
   
+    },
+    IconView: {
+        display: 'flex',
+        justifyContent: 'space-between'
     },
     DeleteButton: {
         marginLeft: wp(2),

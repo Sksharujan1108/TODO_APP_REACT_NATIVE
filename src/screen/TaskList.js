@@ -23,27 +23,19 @@ const TaskList = ({navigation}) => {
       return unsubscribe;
     }, [navigation]);
 
+    // Add The Data View ******
     const getTask = () => {
       AsyncStorage.getItem('tasks')
-      .then((response) => {
-          if (response != null) {
+      .then((response) => { 
+          if (response !== null) {
             setTasks(JSON.parse(response));
-            console.log(JSON.stringify(JSON.parse(response)));
+            console.log('*********', JSON.stringify(JSON.parse(response)));
           }
       })
       .catch(() => {
         console.log('fgh');
         alert('Task not found')
       })    
-    }
-
-    const onPressEdit = () => {
-      navigation.navigate('AddTask', {
-        index,
-        name: name,
-        taskName: taskName,
-        taskDescription: taskDescription,
-      })
     }
 
     const onPressDelete = (index) => {
@@ -53,6 +45,7 @@ const TaskList = ({navigation}) => {
       AsyncStorage.setItem('tasks', JSON.stringify(tasks))
      .then(() => {
           alert('Task Deleted Successfully')
+          getTask();
         })
         .catch((error) => {
           alert('Something Went Wrong')
@@ -70,12 +63,20 @@ const TaskList = ({navigation}) => {
           <ListCard
             key = {index}
             name = {item.name}
-            title = {item.taskName}
+            taskName = {item.taskName}
             taskDescription = {item.taskDescription}
             onPress = {() => {
               getTask()
             }}
-            onPressEdit = {onPressEdit}
+            onPressEdit = {() => {
+              navigation.navigate('AddTask', {
+                index,
+                name: item.name,
+                taskName: item.taskName,
+                taskDescription: item.taskDescription,
+              })
+            }}
+
             onPressDelete = {()  => {
               onPressDelete(index)
             }}

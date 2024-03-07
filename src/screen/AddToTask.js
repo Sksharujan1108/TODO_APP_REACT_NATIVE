@@ -18,12 +18,12 @@ const AddToTask = ({navigation, route}) => {
   useEffect(() => {
     if (route?.params?.name) {
       setName(route?.params.name)
-    } if (route?.params?.task) {
+    } if (route?.params?.taskName) {
       setTaskName(route?.params.taskName)
     } if (route?.params?.taskDescription) {
       setTaskDescription(route?.params.taskDescription)
     }
-  })
+  }, [])
 
   const onPressAdd = () => {
     if (name == '') {
@@ -77,7 +77,36 @@ const AddToTask = ({navigation, route}) => {
   }
 
   const onPressEdit = () => {
-
+    if (name == '') {
+      alert('Please Enter The Name')
+    } else if (taskName == ' ') {
+      alert('Please Enter Task Name')
+    } else if (taskDescription == '') {
+      alert('Please Enter The Task Description')
+    }  else {
+      AsyncStorage.getItem('tasks')
+      .then((response) => {
+        if (response != null) {
+          const tasks = JSON.parse(response)
+          tasks[route.params.index] = {
+            name: name,
+            taskName: taskName,
+            taskDescription: taskDescription
+          }
+          AsyncStorage.setItem('tasks', JSON.stringify(tasks))
+          .then(()=>{
+             alert('Task Edited Successfully')
+             navigation.goBack()
+          })
+          .catch(() => {
+            alert('Fail To Edit Task')
+          })
+        }
+      })
+      .catch(() => {
+        alert('Fail To Edit Task')
+      })
+    }
   }
 
     const onPressBack = () => {
